@@ -1,0 +1,32 @@
+<h3>Tweet</h3>
+<div *ngIf="!!tweets && tweets.length === 0">
+  <h4>No tweets to show</h4>
+</div>
+<div *ngIf="!!tweets">
+
+  <section id="app"  *ngFor="let tweet of tweets">
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <div class="comment">
+        <p >{{tweet.content}}</p>
+        <div  *ngFor="let reply of tweet.replies">
+          <div class="row">
+            <div class="col-6">
+              <div class="comment">
+                {{reply.content}}
+              </div>
+          </div>
+        </div>
+        </div>
+          </div><!--End Comment-->
+          </div><!--End col -->
+          </div><!-- End row -->
+          <form [formGroup]="replyInput" (ngSubmit)="replyData(tweet.id)">
+            <textarea type="text" class="input" placeholder="Reply here" id="reply" formControlName="reply"></textarea>
+            <button  class='primaryContained float-right' type="submit">Tweet</button>
+          </form>
+          <button (click)="deleteTweet(tweet.id)">Delete</button>
+    </div><!--End Container -->
+  </section><!-- end App -->
+</div>

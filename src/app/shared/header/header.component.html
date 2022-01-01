@@ -1,0 +1,33 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-lg p-3 mb-2 bg-white rounded">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="https://www.clipartmax.com/png/full/78-783585_dark-blue-twitter-logo.png" class="img-fluid logo-style" alt="">
+            Tweet App
+          </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+           data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+           aria-expanded="false" aria-label="Toggle navigation"
+           (click)="toggleCollapsed()">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      <div id="navbarSupportedContent" [ngClass]="{'collapse': collapsed, 'navbar-collapse': true}">
+        <div class="navbar-nav">
+          <a class="nav-link " [routerLink]="['']">Home</a>
+        </div>
+        <div class="navbar-nav mx-auto">
+
+
+
+          </div>
+          <div class="navbar-nav">
+            <a class="nav-link" [routerLink]="['/Auth/login']" *ngIf="!isAuthenticated" >Login</a>
+            <a  class="nav-link" [routerLink]="['/Auth/users']" *ngIf="isAuthenticated"> All users</a>
+            <a  class="nav-link" [routerLink]="['/userTweets']" *ngIf="isAuthenticated"> My Tweets</a>
+            <a  class="nav-link" *ngIf="isAuthenticated" (click)="logoutUser()" >Logout</a>
+            <a  class="nav-link" [routerLink]="['/Auth/signup']" *ngIf="!isAuthenticated">Sign Up</a>
+          </div>
+      </div>
+    </div>
+  </nav>
+
+

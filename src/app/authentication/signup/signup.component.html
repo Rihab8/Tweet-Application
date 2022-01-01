@@ -1,0 +1,76 @@
+<form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" >
+
+  <!-- <div class="alert alert-danger" *ngIf="error">
+    <p>{{error}}</p>
+  </div> -->
+    <div class="row mb-3">
+      <label for="firstName" class="col-sm-2 col-form-label" >First Name</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="firstName" formControlName="firstName" pattern="[a-zA-Z ]+" >
+        <span class="text-danger" *ngIf="!signUpForm.get('firstName').valid && signUpForm.get('firstName').touched">
+          <span class="text-danger" *ngIf="signUpForm.get('firstName').errors['required']">
+            Required Field
+          </span>
+          <span class="text-danger" *ngIf="!signUpForm.get('firstName').errors['required']">Name should only contain whitespace and alphabets!</span>
+        </span>
+      </div>
+      <label for="lastName" class="col-sm-2 col-form-label" >Last Name</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="lastName" formControlName="lastName">
+        <span class="text-danger" *ngIf="!signUpForm.get('lastName').valid && signUpForm.get('lastName').touched">
+          <span class="text-danger" *ngIf="signUpForm.get('lastName').errors['required']">
+            Required Field
+          </span>
+          <span class="text-danger" *ngIf="!signUpForm.get('lastName').errors['required']">Name should only contain whitespace and alphabets!</span>
+        </span>
+      </div>
+      <label for="email" class="col-sm-2 col-form-label" >Email</label>
+      <div class="col-sm-10">
+        <input type="email" class="form-control" id="email" formControlName="email">
+        <span class="text-danger" *ngIf="!signUpForm.get('email').valid && signUpForm.get('email').touched">
+          <span class="text-danger" *ngIf="signUpForm.get('email').errors['required']">
+            Required Field
+          </span>
+          <span class="text-danger" *ngIf="!signUpForm.get('email').errors['required']">Invalid Email</span>
+        </span>
+      </div>
+      <label for="contactNumber" class="col-sm-2 col-form-label">Contact Number</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="contactNumber" formControlName="contactNumber" pattern="[1-9]{1}[0-9]{9}">
+        <span class="text-danger" *ngIf="!signUpForm.get('contactNumber').valid && signUpForm.get('contactNumber').touched">
+          <span class="text-danger" *ngIf="signUpForm.get('contactNumber').errors['required']">
+            Required Field
+          </span>
+          <span class="text-danger" *ngIf="!signUpForm.get('contactNumber').errors['required']">Phone number should contain 10 digits</span>
+        </span>
+      </div>
+      <label for="password" class="col-sm-2 col-form-label" >Password</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="password" formControlName="password">
+        <span class="text-danger" *ngIf="!signUpForm.get('password').valid && signUpForm.get('password').touched">
+          <span class="text-danger" *ngIf="signUpForm.get('password').errors['required']">
+            Required Field
+          </span>
+          <span class="text-danger" *ngIf="!signUpForm.get('password').errors['required']">Password should have atleast 8 characters</span>
+        </span>
+      </div>
+       <label for="confirmPassword" class="col-sm-2 col-form-label" >Confirm Password</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="confirmPassword" formControlName="confirmPassword">
+        <span class="text-danger" *ngIf="!signUpForm.get('confirmPassword').valid && signUpForm.get('confirmPassword').touched">
+          <span class="text-danger" *ngIf="signUpForm.get('confirmPassword').errors['required']">
+            Required Field
+          </span>
+          <span class="text-danger" *ngIf="signUpForm.get('confirmPassword').errors['passwordSame']"> Password not same</span>
+          <span class="text-danger" *ngIf="!signUpForm.get('confirmPassword').errors['required'] && !signUpForm.get('confirmPassword').errors['passwordSame']">Password should have atleast 8 characters</span>
+        </span>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <div><img [src]="url" *ngIf="url" ></div>
+      <p>
+        <input type="file" (change)="selectFile($event)"  id="image" formControlName="image">>
+      </p>
+    </div>
+    <button type="submit" class="btn btn-primary">Sign Up</button>
+</form>

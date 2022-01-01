@@ -1,0 +1,12 @@
+<div *ngIf="!!users">
+  <table>
+    <thead>
+      <th>Name</th>
+    </thead>
+    <tbody *ngFor="let user of users">
+      <tr>
+        {{user.firstName}} {{user.lastName}}
+      </tr>
+    </tbody>
+  </table>
+</div>
