@@ -1,5 +1,5 @@
 export class User{
-    constructor( public id: number,
+    constructor( public id: string,
     public image:string,
     public firstName:string,
     public lastName:string,

@@ -10,9 +10,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
-  signUpForm!:FormGroup;
+  signUpForm: FormGroup;
   isLoginMode = false;
   url: any;
+  error: string;
 
   constructor(
     private authenticationService: AuthenticationService,private router: Router
@@ -68,10 +69,18 @@ selectFile(event: any) {
   onSubmit() {
     const value = this.signUpForm.value;
 
-    const newUser= new User(8,value.image, value.firstName,value.lastName,
+    const newUser= new User("",value.image, value.firstName,value.lastName,
     value.password,value.confirmPassword,value.contactNumber,value.email);
-    this.authenticationService.signUp(newUser);
-    this.router.navigate(['/Auth/login']);
+    this.authenticationService.signUp(newUser).subscribe(
+      (data) => {
+        this.router.navigate(['/Auth/login']);
+      },
+      (error) => {
+        this.signUpForm.reset();
+        this.error = error;
+      }
+    );
+
   }
 
 }

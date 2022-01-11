@@ -1,37 +1,123 @@
-<h3>Tweet</h3>
-<div>
-  <form [formGroup]="tweetForm" (ngSubmit)="newTweet()">
-    <textarea type="text" class="input" placeholder="Comment here" id="tweet" formControlName="tweet"></textarea>
-    <button  class='primaryContained float-right' type="submit">New tweet</button>
-  </form>
-</div>
-<div *ngIf="!!!tweets">
-  <h4>No tweets to show</h4>
-</div>
-<div *ngIf="!!tweets">
-
-<section id="app"  *ngFor="let tweet of tweets">
-  <div class="container">
-    <div class="row">
-      <div class="col-6">
-        <div class="comment">
-      <p >{{tweet.content}}</p>
-      <div  *ngFor="let reply of tweet.replies">
-        <div class="row">
-          <div class="col-6">
-            <div class="comment">
-              {{reply.content}}
-            </div>
+  <!-- feed starts -->
+     <div class="container">
+      <div class="row">
+        <div class="col-md-3">
         </div>
-      </div>
-      </div>
-        </div><!--End Comment-->
-        </div><!--End col -->
-        </div><!-- End row -->
-        <form [formGroup]="replyInput" (ngSubmit)="replyData(tweet.id)">
-          <textarea type="text" class="input" placeholder="Reply here" id="reply" formControlName="reply"></textarea>
-          <button  class='primaryContained float-right' type="submit">Tweet</button>
-        </form>
-  </div><!--End Container -->
-</section><!-- end App -->
-</div>
+      <div class="feed col-md-8">
+        <div class="feed__header">
+          <h2>Home</h2>
+        </div>
+        <!-- tweetbox starts -->
+        <div class="tweetBox">
+          <form [formGroup]="tweetForm" (ngSubmit)="newTweet()">
+            <div class="tweetbox__input">
+              <img
+                src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
+                alt=""
+              />
+              <input type="text" class="input" id="tweet" formControlName="tweet" placeholder="What's happening?" />
+            </div>
+            <button class="tweetBox__tweetButton" type="submit">Tweet</button>
+          </form>
+        </div>
+        <div *ngIf="!!!tweets || tweets.length === 0">
+          <h4 class="ml-5 mt-5">No tweets to show</h4>
+        </div>
+        <!-- tweetbox ends -->
+
+        <!-- post starts -->
+        <div *ngIf="!!tweets">
+          <div class="post"  *ngFor="let tweet of tweets">
+            <div class="post__avatar">
+              <img
+                src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
+                alt=""
+              />
+            </div>
+
+            <div class="post__body">
+              <div class="post__header">
+                <div class="post__headerText">
+                  <h3>
+                    {{tweet.user.name}}
+                    <span class="post__headerSpecial"
+                      ><span class="material-icons post__badge"> verified </span>@{{tweet.user.name}}</span
+                    >
+                  </h3>
+                </div>
+                <div class="post__headerDescription">
+                  <p>{{tweet.content}}</p>
+                </div>
+                <span>{{tweet.tweetDate}}</span>
+              </div>
+              <hr>
+              <span>{{tweet.likes.length}} likes </span>
+              <hr>
+              <div class="post__footer">
+                <em class="material-icons" (click)="reply(this)">chat_bubble_outline</em>
+                <span class="material-icons"> repeat </span>
+                <em class="material-icons" (click)="like(tweet.id)"> favorite_border </em>
+                <span class="material-icons"> publish </span>
+              </div>
+            </div>
+            <ul>
+              <li *ngFor="let reply of tweet.replies">
+                <div class="post__header">
+                  <div class="post__headerText">
+                    <h3>
+                      {{reply.user.name}}
+                      <span class="post__headerSpecial"
+                        ><span class="material-icons post__badge"> verified </span>@{{reply.user.name}}</span
+                      >
+                    </h3>
+                  </div>
+                  <div class="post__headerDescription">
+                    <p>{{reply.content}}</p>
+                  </div>
+                  <span>{{reply.tweetDate}}</span>
+                </div>
+                <hr>
+                <span>likes</span>
+                <hr>
+                <div class="post__footer">
+                  <em class="material-icons" >chat_bubble_outline</em>
+                  <span class="material-icons"> repeat </span>
+                  <em class="material-icons" (click)="like(reply.id)"> favorite_border </em>
+                  <span class="material-icons"> publish </span>
+                </div>
+              </li>
+            </ul>
+            <hr>
+          </div>
+          <!-- post ends -->
+        </div>
+
+     </div>
+     <hr>
+     <div class="col-md-3">
+     </div>
+    </div>
+  </div>
+  <style>
+    .fa {
+      font-size: 50px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .fa:hover {
+      color: darkblue;
+    }
+    </style>
+
+
+    <p>Click on the icon to toggle between thumbs-up and thumbs-down (like/dislike):</p>
+
+    <i  class="fa fa-thumbs-up"></i>
+
+    <script>
+
+    </script>
+
+    <!-- widgets ends -->
+
