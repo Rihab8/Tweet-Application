@@ -1,9 +1,11 @@
+import { UserAccount } from 'src/app/authentication/user-account.model';
 import { User } from "../authentication/user.model";
 
 export class Tweet{
-        id: number;
-         content:string;
-         tweetDate:Date;
-         user:User;
+         id: string;
+         content: string;
+         tweetDate: string;
+         user: UserAccount;
          replies: Tweet[];
+         likes: string[];
 }

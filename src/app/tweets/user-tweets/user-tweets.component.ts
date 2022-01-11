@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { TweetDataSerice } from '../tweet-data-service';
 import { Tweet } from '../tweet.model';
 import { UserAccount } from 'src/app/authentication/user-account.model';
+import { Modal } from "bootstrap";
 
 @Component({
   selector: 'user-tweets',
@@ -16,7 +17,10 @@ export class UserTweetsComponent implements OnInit {
   tweets : Tweet[] ;
   replyInput:FormGroup;
   currentUser: UserAccount;
-
+  message: string = "";
+  modalMessage: string = "";
+  testModal: Modal | undefined;
+  characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   constructor(private tweetDataService: TweetDataSerice,private authenticationService:AuthenticationService, private router: Router) {
     this.currentUser = JSON.parse((localStorage.getItem('userData')));
   }
@@ -47,14 +51,68 @@ export class UserTweetsComponent implements OnInit {
   replyData(id){
     const value = this.replyInput.value;
     const reply = new Tweet();
+    reply.id = this.randHex(24);
+    reply.tweetDate = this.getdateTime();
+    reply.user.image = this.currentUser.image;
+    reply.user = new UserAccount();
     reply.content = value.reply;
     reply.replies = [];
+    reply.likes = [];
+    reply.user.id = this.currentUser.id;
+    reply.user.image = this.currentUser.image;
+    reply.user.email = this.currentUser.email;
+    reply.user.name = this.currentUser.name;
+    reply.content = value.reply;
+    reply.replies = [];
+    reply.likes = [];
     this.tweetDataService.addReplyTweet(id,reply,true);
 
     this.replyInput.reset();
   }
-  deleteTweet(id){
+  reply() {
+   // x.classList.toggle("fa-thumbs-down");
+  }
+  like(tweetId){
+    this.tweetDataService.likeTweet(this.currentUser.id,tweetId,true);
+  }
+  deleteModal(id: string) {
+    this.modalMessage = "Are you sure you want to delete?"
+    this.open();
 
+  }
+  open() {
+    this.testModal = new Modal(document.getElementById('testModal'), {
+      keyboard: false
+    })
+    this.testModal?.show();
+  }
+
+  proceed(value: boolean, id: string) {
+    this.testModal?.toggle();
+    this.deleteTweet(id);
+  }
+  deleteTweet(id){
     this.tweetDataService.deletTweet(id);
   }
+
+
+
+getdateTime(){
+  const today = new Date();
+  return `${today.toLocaleDateString()} ${today.toLocaleTimeString()}`;
+}
+
+
+randHex = function(len) {
+    var maxlen = 8,
+        min = Math.pow(16,Math.min(len,maxlen)-1)
+        let max = Math.pow(16,Math.min(len,maxlen)) - 1,
+        n   = Math.floor( Math.random() * (max-min+1) ) + min,
+        r   = n.toString(16);
+    while ( r.length < len ) {
+       r = r + this.randHex( len - maxlen );
+    }
+    return r;
+
+}
 }

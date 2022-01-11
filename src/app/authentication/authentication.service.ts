@@ -4,7 +4,7 @@ import { User } from "./user.model";
 import {catchError, map, tap} from 'rxjs/operators';
 import { BehaviorSubject, Observable, throwError } from "rxjs";
 import { Router } from "@angular/router";
-import { TweetDataSerice } from "../tweets/tweet-data-service";
+import  {microserviceUrls }  from "../constants/constants";
 import { UserAccount } from "./user-account.model";
 @Injectable({providedIn:'root'})
 export class AuthenticationService{
@@ -17,25 +17,23 @@ export class AuthenticationService{
   }
 
   getAllUser(){
-    return this.httpClient.get<User[]>('https://localhost:49155/api/authenticate/users')
+    return this.httpClient.get<User[]>(`${microserviceUrls.authMicroservice}/users`)
     .pipe(map(data=>{
       return data;
     }))
   }
 
   getUserByEmail(email: string){
-     return this.httpClient.get<User>(`https://localhost:49155/api/authenticate?email=${email}`);
+     return this.httpClient.get<User>(`${microserviceUrls.authMicroservice}?email=${email}`);
   }
   signUp(newUserData: User) {
-     this.httpClient
-      .post<User>('https://localhost:49155/api/authenticate/signup', newUserData).subscribe(data=>{
-        console.log(data);
-      })
+    return this.httpClient
+      .post<User>(`${microserviceUrls.authMicroservice}/signup`, newUserData).pipe(catchError(this.handleError));
   }
 
   login(email: string , password: string){
     return this.httpClient
-    .get(`https://localhost:49155/api/authenticate/login?email=${email}&password=${password}`,{responseType:'text'})
+    .get(`${microserviceUrls.authMicroservice}/login?email=${email}&password=${password}`,{responseType:'text'})
       .pipe(
         catchError(this.handleError),
         tap((token) => {
@@ -53,7 +51,7 @@ export class AuthenticationService{
 
   }
   changePassword(email: string, newPassword: string){
-    return this.httpClient.put(`https://localhost:49155/api/authenticate/changepassword?email=${email}&password=${newPassword}`, null)
+    return this.httpClient.put(`${microserviceUrls.authMicroservice}/changepassword?email=${email}&password=${newPassword}`, null)
     .pipe(map(data=>{
       return data;
     }))
@@ -93,13 +91,13 @@ export class AuthenticationService{
     }, expirationDuration);
   }
   private handleAuthentication(
-    id: number,
+    id: string,
     name: string,
     email: string,
     image: string,
     token: string
   ) {
-    const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
+    const expirationDate = new Date(new Date().getTime() + 15*60 * 1000);
     const user = new UserAccount();
     user.id = id;
     user.name = name;

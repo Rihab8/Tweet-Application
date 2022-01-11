@@ -19,6 +19,10 @@ export class HomePageComponent implements OnInit {
   replyInput:FormGroup;
   tweetForm: FormGroup;
   currentUser: UserAccount;
+  isShow = false;
+  message: string = "";
+  modalMessage: string = "";
+
   constructor(private tweetDataService: TweetDataSerice,private authenticationService:AuthenticationService, private router: Router) {
     this.currentUser = JSON.parse((localStorage.getItem('userData')));
   }
@@ -47,23 +51,51 @@ export class HomePageComponent implements OnInit {
       const tweetContent = this.tweetForm.value;
       const newTweet = new Tweet();
       newTweet.content = tweetContent.tweet;
-      newTweet.id = 10;
+      newTweet.tweetDate = this.getdateTime();
       newTweet.replies = [];
-      newTweet.user = new User(this.currentUser.id,null,null,null,null,null,null,null);
+      newTweet.likes = [];
+      newTweet.user = new UserAccount();
+      newTweet.user.id = this.currentUser.id;
+      newTweet.user.image = this.currentUser.image;
+      newTweet.user.email = this.currentUser.email;
+      newTweet.user.name = this.currentUser.name;
       this.tweetDataService.addNewTweet(this.currentUser.id,newTweet);
+      this.isShow = true;
+      this.message = "Tweet Added";
       this.tweetForm.reset();
     }
     else{
       this.router.navigate(['Auth/login']);
     }
   }
+   reply(x) {
+    x.classList.toggle("fa-thumbs-down");
+  }
+  like(tweetId){
+
+    if(!!this.currentUser){
+      this.tweetDataService.likeTweet(tweetId,this.currentUser.id);
+    }
+    else{
+      this.router.navigate(['Auth/login']);
+    }
+  }
+
   replyData(id){
 
     if(!!this.currentUser){
       const value = this.replyInput.value;
       const reply = new Tweet();
+      reply.id = this.randHex(24);
+      reply.tweetDate = this.getdateTime();;
+      reply.user = new UserAccount();
       reply.content = value.reply;
       reply.replies = [];
+      reply.likes = [];
+      reply.user.id = this.currentUser.id;
+      reply.user.image = this.currentUser.image;
+      reply.user.email = this.currentUser.email;
+      reply.user.name = this.currentUser.name;
       this.tweetDataService.addReplyTweet(id,reply);
       this.replyInput.reset();
     }
@@ -73,4 +105,20 @@ export class HomePageComponent implements OnInit {
 
   }
 
+  getdateTime(){
+    const today = new Date();
+    return `${today.toLocaleDateString()} ${today.toLocaleTimeString()}`;
+  }
+  randHex = function(len) {
+    var maxlen = 8,
+        min = Math.pow(16,Math.min(len,maxlen)-1)
+        let max = Math.pow(16,Math.min(len,maxlen)) - 1,
+        n   = Math.floor( Math.random() * (max-min+1) ) + min,
+        r   = n.toString(16);
+    while ( r.length < len ) {
+       r = r + this.randHex( len - maxlen );
+    }
+    return r;
+
+}
 }

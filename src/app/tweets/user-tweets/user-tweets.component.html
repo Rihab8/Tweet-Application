@@ -1,32 +1,91 @@
-<h3>Tweet</h3>
-<div *ngIf="!!tweets && tweets.length === 0">
+<div *ngIf="!!!tweets || tweets.length === 0">
   <h4>No tweets to show</h4>
 </div>
-<div *ngIf="!!tweets">
-
-  <section id="app"  *ngFor="let tweet of tweets">
-    <div class="container">
+     <!-- feed starts -->
+     <div class="container" *ngIf="!!tweets">
       <div class="row">
-        <div class="col-6">
-          <div class="comment">
-        <p >{{tweet.content}}</p>
-        <div  *ngFor="let reply of tweet.replies">
-          <div class="row">
-            <div class="col-6">
-              <div class="comment">
-                {{reply.content}}
+        <div class="col-md-3"></div>
+      <div class="feed col-md-8">
+        <div class="feed__header">
+          <h2>Home</h2>
+        </div>
+        <!-- post starts -->
+        <div *ngIf="!!tweets">
+          <div class="post"  *ngFor="let tweet of tweets">
+            <div class="post__avatar">
+              <img
+                src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
+                alt=""
+              />
+            </div>
+
+            <div class="post__body">
+              <div>
+                <div class="post__header">
+                  <div class="post__headerText">
+                    <h3>
+                      {{tweet.user.name}}
+                      <span class="post__headerSpecial"
+                        ><span class="material-icons post__badge"> verified </span>@{{tweet.user.name}}</span
+                      >
+                    </h3>
+                    <button (click)="deleteModal(tweet.id)">Delete</button>
+                    <app-modal-popup [modalMessage]="modalMessage" (isProceed)="proceed(true,tweet.id)"></app-modal-popup>
+                  </div>
+                  <div class="post__headerDescription">
+                    <p>{{tweet.content}}</p>
+                  </div>
+                  <span>{{tweet.tweetDate}}</span>
+                </div>
+                <hr>
+                <span>{{tweet.likes.length}} likes</span>
+                <hr>
+                <div class="post__footer">
+                  <!-- <em class="material-icons" (click)="reply(this)">chat_bubble_outline</em> -->
+                  <span class="material-icons"> repeat </span>
+                  <em class="material-icons" (click)="like(tweet.id)"> favorite_border </em>
+                  <span class="material-icons"> publish </span>
+                </div>
               </div>
+              <ul>
+                <li *ngFor="let reply of tweet.replies">
+                  <div class="post__header">
+                    <div class="post__headerText">
+                      <h3>
+                        {{reply.user.name}}
+                        <span class="post__headerSpecial"
+                          ><span class="material-icons post__badge"> verified </span>@{{reply.user.name}}</span
+                        >
+                      </h3>
+                    </div>
+                    <div class="post__headerDescription">
+                      <p>{{reply.content}}</p>
+                    </div>
+                    <span>{{reply.tweetDate}}</span>
+                  </div>
+                  <hr>
+                  <span>likes {{tweet.likes.length}}</span>
+                  <hr>
+                  <div class="post__footer">
+                    <!-- <em class="material-icons" (click)="reply()">chat_bubble_outline</em> -->
+                    <span class="material-icons"> repeat </span>
+                    <em class="material-icons" (click)="like(reply.id)"> favorite_border </em>
+                    <span class="material-icons"> publish </span>
+                  </div>
+                </li>
+              </ul>
+              <form [formGroup]="replyInput" (ngSubmit)="replyData(tweet.id)">
+                <textarea type="text" class="input" placeholder="Reply here" id="reply" formControlName="reply"></textarea>
+                <button  type="submit" class="btn btn-success">Reply</button>
+              </form>
+            </div>
+            <hr>
           </div>
+          <!-- post ends -->
         </div>
-        </div>
-          </div><!--End Comment-->
-          </div><!--End col -->
-          </div><!-- End row -->
-          <form [formGroup]="replyInput" (ngSubmit)="replyData(tweet.id)">
-            <textarea type="text" class="input" placeholder="Reply here" id="reply" formControlName="reply"></textarea>
-            <button  class='primaryContained float-right' type="submit">Tweet</button>
-          </form>
-          <button (click)="deleteTweet(tweet.id)">Delete</button>
-    </div><!--End Container -->
-  </section><!-- end App -->
-</div>
+
+     </div>
+     <hr>
+     <div class="col-md-3"></div>
+    </div>
+  </div>

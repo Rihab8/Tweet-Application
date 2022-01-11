@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Tweet } from "./tweet.model";
+import  {microserviceUrls }  from "../constants/constants";
 
 @Injectable({providedIn:'root'})
 export class TweetDataSerice{
@@ -22,15 +23,15 @@ export class TweetDataSerice{
         this.currentUser = user;
       })
     }
-    getTweetsByUserId(id: number){
-      const url=`https://localhost:49153/api/tweet/user?id=${id}`;
+    getTweetsByUserId(id: string){
+      const url=`${microserviceUrls.tweetMiscroserviceUrl}/user?id=${id}`;
        this.httpService.get<Tweet[]>(url).subscribe(data=>{
         this.userTweets.next(data);
       });
 
   }
     getTweets(){
-        const url=`https://localhost:49153/api/tweet`;
+        const url=`${microserviceUrls.tweetMiscroserviceUrl}`;
         let filteredTweets =[];
          this.httpService.get<Tweet[]>(url).subscribe(tweets=>{
           if(!!tweets){
@@ -46,15 +47,15 @@ export class TweetDataSerice{
         })
     }
     addNewTweet(id,tweet: Tweet){
-      const url=`https://localhost:49153/api/tweet`;
-      this.httpService.post(url,tweet).subscribe(data=>{
+      const url=`${microserviceUrls.tweetMiscroserviceUrl}`;
+      this.httpService.post(url,tweet,{responseType:'text'}).subscribe(data=>{
         this.getTweetsByUserId(id);
       })
     }
 
   addReplyTweet(id: string,reply: Tweet,isSame = false){
-    const url=`https://localhost:49153/api/tweet/reply/${id}`;
-    this.httpService.put(url,reply).subscribe(data=>{
+    const url=`${microserviceUrls.tweetMiscroserviceUrl}/reply/${id}`;
+    this.httpService.put(url,reply,{responseType:'text'}).subscribe(data=>{
       if(isSame){
         this.getTweetsByUserId(this.currentUser.id);
       }
@@ -64,9 +65,20 @@ export class TweetDataSerice{
 
     })
   }
-  deletTweet(id: number){
-    const url=`https://localhost:49153/api/tweet/${id}`;
-    this.httpService.delete(url).subscribe(data=>{
+  likeTweet(userId: string, tweetId: string,isSame = false){
+    const url=`${microserviceUrls.tweetMiscroserviceUrl}/like?userId=${userId}&tweetId=${tweetId}`;
+    this.httpService.put(url,{responseType:'text'}).subscribe(data=>{
+      if(isSame){
+        this.getTweetsByUserId(this.currentUser.id);
+      }
+      else{
+        this.getTweets();
+      }
+    })
+  }
+  deletTweet(id: string){
+    const url=`${microserviceUrls.tweetMiscroserviceUrl}/${id}`;
+    this.httpService.delete(url,{responseType:'text'}).subscribe(data=>{
       this.getTweetsByUserId(this.currentUser.id);
     })
   }
