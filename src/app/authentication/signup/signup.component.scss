@@ -1,3 +1,41 @@
 input.ng-invalid.ng-touched{
   border: 1px solid red;
 }
+textarea.ng-invalid.ng-touched,input.ng-invalid.ng-touched{
+  border: 1px solid red;
+}
+
+.note
+{
+  text-align: center;
+  height: 80px;
+  background: -webkit-linear-gradient(left, #122a4e, #1a5ca3);
+  color: #fff;
+  font-weight: bold;
+  line-height: 80px;
+  font-size: 20px;
+  font-family: monospace;
+}
+.form-content
+{
+  padding: 5%;
+  border: 1px solid #ced4da;
+  margin-bottom: 2%;
+}
+.form-control{
+  border-radius:.5rem;
+}
+.btnSubmit
+{
+  border:none;
+  border-radius:1.5rem;
+  padding: 1%;
+  width: 20%;
+  cursor: pointer;
+  background:  #122a4e;
+  font-family: monospace;
+  color: #fff;
+  &:hover{
+    background: -webkit-linear-gradient(left, #122a4e, #40109b)
+  }
+}

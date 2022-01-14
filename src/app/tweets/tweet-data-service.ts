@@ -67,7 +67,7 @@ export class TweetDataSerice{
   }
   likeTweet(userId: string, tweetId: string,isSame = false){
     const url=`${microserviceUrls.tweetMiscroserviceUrl}/like?userId=${userId}&tweetId=${tweetId}`;
-    this.httpService.put(url,{responseType:'text'}).subscribe(data=>{
+    this.httpService.put(url,{}).subscribe(data=>{
       if(isSame){
         this.getTweetsByUserId(this.currentUser.id);
       }

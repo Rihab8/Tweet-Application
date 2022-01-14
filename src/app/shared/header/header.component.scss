@@ -2,4 +2,17 @@
     height: 25px;
     width: 30px;
 }
-
+.navbar-light .navbar-brand , .navbar-light .navbar-nav .nav-link{
+color:#1a5ca3 ;
+font-family: cursive;
+    &:hover{
+        color:#122a4e ;
+    }
+}
+.navbar-light .navbar-nav .nav-link{
+    color:#122a4e ;
+    font-family: cursive;
+    &:hover{
+        color:#1a5ca3 ;
+    }
+}

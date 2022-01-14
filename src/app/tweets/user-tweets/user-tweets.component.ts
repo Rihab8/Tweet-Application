@@ -17,6 +17,8 @@ export class UserTweetsComponent implements OnInit {
   tweets : Tweet[] ;
   replyInput:FormGroup;
   currentUser: UserAccount;
+  currentId: string = '';
+  isShow = false;
   message: string = "";
   modalMessage: string = "";
   testModal: Modal | undefined;
@@ -53,7 +55,6 @@ export class UserTweetsComponent implements OnInit {
     const reply = new Tweet();
     reply.id = this.randHex(24);
     reply.tweetDate = this.getdateTime();
-    reply.user.image = this.currentUser.image;
     reply.user = new UserAccount();
     reply.content = value.reply;
     reply.replies = [];
@@ -69,8 +70,9 @@ export class UserTweetsComponent implements OnInit {
 
     this.replyInput.reset();
   }
-  reply() {
-   // x.classList.toggle("fa-thumbs-down");
+  toggleReply(id) {
+    this.isShow = !this.isShow;
+    this.currentId = id;
   }
   like(tweetId){
     this.tweetDataService.likeTweet(this.currentUser.id,tweetId,true);
@@ -95,7 +97,10 @@ export class UserTweetsComponent implements OnInit {
     this.tweetDataService.deletTweet(id);
   }
 
+  isUserLiked(likes: string[]){
 
+    return likes.includes(this.currentId);
+  }
 
 getdateTime(){
   const today = new Date();

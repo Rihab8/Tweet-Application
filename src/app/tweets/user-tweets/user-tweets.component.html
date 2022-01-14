@@ -35,19 +35,19 @@
                   <div class="post__headerDescription">
                     <p>{{tweet.content}}</p>
                   </div>
-                  <span>{{tweet.tweetDate}}</span>
+                  <span class="date-style">{{tweet.tweetDate}}</span>
                 </div>
                 <hr>
-                <span>{{tweet.likes.length}} likes</span>
+                <span class="like-style">{{tweet.likes.length}} likes</span>
                 <hr>
                 <div class="post__footer">
-                  <!-- <em class="material-icons" (click)="reply(this)">chat_bubble_outline</em> -->
+                  <em class="material-icons" (click)="toggleReply(tweet.id)">chat_bubble_outline</em>
                   <span class="material-icons"> repeat </span>
                   <em class="material-icons" (click)="like(tweet.id)"> favorite_border </em>
                   <span class="material-icons"> publish </span>
                 </div>
               </div>
-              <ul>
+              <ul *ngIf="isShow && currentId === tweet.id">
                 <li *ngFor="let reply of tweet.replies">
                   <div class="post__header">
                     <div class="post__headerText">
@@ -64,20 +64,25 @@
                     <span>{{reply.tweetDate}}</span>
                   </div>
                   <hr>
-                  <span>likes {{tweet.likes.length}}</span>
+                  <span>likes {{reply.likes.length}}</span>
                   <hr>
                   <div class="post__footer">
-                    <!-- <em class="material-icons" (click)="reply()">chat_bubble_outline</em> -->
+                    <em class="material-icons" (click)="toggleReply(reply.id)">chat_bubble_outline</em>
                     <span class="material-icons"> repeat </span>
                     <em class="material-icons" (click)="like(reply.id)"> favorite_border </em>
                     <span class="material-icons"> publish </span>
                   </div>
                 </li>
+                <li>
+                  <form [formGroup]="replyInput" (ngSubmit)="replyData(tweet.id)">
+                    <!-- <textarea type="text" class="input" placeholder="Reply here" id="reply" formControlName="reply"></textarea> -->
+                    <div class="tweetbox__input">
+                      <input type="text" class="input" placeholder="Reply here" id="reply" formControlName="reply" />
+                    </div>
+                    <button  type="submit" class="tweetBox__tweetButton">Reply</button>
+                  </form>
+                </li>
               </ul>
-              <form [formGroup]="replyInput" (ngSubmit)="replyData(tweet.id)">
-                <textarea type="text" class="input" placeholder="Reply here" id="reply" formControlName="reply"></textarea>
-                <button  type="submit" class="btn btn-success">Reply</button>
-              </form>
             </div>
             <hr>
           </div>

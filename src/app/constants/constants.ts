@@ -1,5 +1,5 @@
 export const microserviceUrls = {
 
-  tweetMiscroserviceUrl : "https://localhost:5001/api/tweet",
-  authMicroservice : "https://localhost:5001/api/authenticate"
+  tweetMiscroserviceUrl : "http://40.76.151.157/api/tweet",
+  authMicroservice : "http://20.81.125.63/api/authenticate"
 }
