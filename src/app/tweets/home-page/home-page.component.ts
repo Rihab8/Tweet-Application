@@ -19,6 +19,7 @@ export class HomePageComponent implements OnInit {
   replyInput:FormGroup;
   tweetForm: FormGroup;
   currentUser: UserAccount;
+  currentId = '';
   isShow = false;
   message: string = "";
   modalMessage: string = "";
@@ -68,13 +69,16 @@ export class HomePageComponent implements OnInit {
       this.router.navigate(['Auth/login']);
     }
   }
-   reply(x) {
-    x.classList.toggle("fa-thumbs-down");
+
+  toggleReply(id) {
+    this.isShow = !this.isShow;
+    this.currentId = id;
   }
+
   like(tweetId){
 
     if(!!this.currentUser){
-      this.tweetDataService.likeTweet(tweetId,this.currentUser.id);
+      this.tweetDataService.likeTweet(this.currentUser.id,tweetId);
     }
     else{
       this.router.navigate(['Auth/login']);
@@ -109,6 +113,11 @@ export class HomePageComponent implements OnInit {
     const today = new Date();
     return `${today.toLocaleDateString()} ${today.toLocaleTimeString()}`;
   }
+
+  isUserLiked(likes: string[]){
+
+    return likes.includes(this.currentId);
+  }  
   randHex = function(len) {
     var maxlen = 8,
         min = Math.pow(16,Math.min(len,maxlen)-1)

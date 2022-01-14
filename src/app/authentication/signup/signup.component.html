@@ -1,8 +1,8 @@
-<form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" >
+<!-- <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" >
 
-  <!-- <div class="alert alert-danger" *ngIf="error">
+  <div class="alert alert-danger" *ngIf="error">
     <p>{{error}}</p>
-  </div> -->
+  </div>
     <div class="row mb-3">
       <label for="firstName" class="col-sm-2 col-form-label" >First Name</label>
       <div class="col-sm-10">
@@ -73,4 +73,73 @@
       </p>
     </div>
     <button type="submit" class="btn btn-primary">Sign Up</button>
-</form>
+</form> -->
+<div class="container register-form">
+  <div class="form">
+    <div class="note">
+      <p>Signup Here!</p>
+    </div>
+    <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+      <div class="form-content">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <input type="text" class="form-control" id="firstName" placeholder="First Name *" formControlName="firstName" pattern="[a-zA-Z ]+" >
+              <span
+                class="help-block text-danger"
+                *ngIf="!signUpForm.get('firstName').valid && signUpForm.get('firstName').touched">Enter a valid name</span>
+            </div>
+            <div class="form-group">
+              <input type="email" class="form-control" id="email" placeholder="Email *" formControlName="email">
+              <span class="help-block text-danger" *ngIf="!signUpForm.get('email').valid && signUpForm.get('email').touched">
+                Enter a valid mail
+              </span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <input
+                type="text"
+                class="form-control"
+                id="lastName" 
+                formControlName="lastName"
+                pattern="[a-zA-Z ]+"
+                placeholder="Last Name *"
+              />
+              <span
+                class="help-block text-danger"
+                *ngIf="!signUpForm.get('lastName').valid && signUpForm.get('lastName').touched"
+                >Please enter a valid Last Name</span
+              >
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" id="contactNumber" placeholder="Contact Number *" formControlName="contactNumber" pattern="[1-9]{1}[0-9]{9}">
+              <span class=" help-block text-danger" *ngIf="!signUpForm.get('contactNumber').valid && signUpForm.get('contactNumber').touched">
+                Enter 10 digit Phone number</span>
+            </div>
+          </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <input type="password" class="form-control" id="password" placeholder="Password *" formControlName="password">
+            <span class="help-block text-danger" *ngIf="!signUpForm.get('password').valid && signUpForm.get('password').touched">
+              Password should have atleast 8 characters
+            </span>
+          </div>
+       </div>  
+       <div class="col-md-6">
+        <div class="form-group">
+          <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password *" formControlName="confirmPassword">
+          <span class="help-block text-danger" *ngIf="!signUpForm.get('confirmPassword').valid && signUpForm.get('confirmPassword').touched">
+          <span class="help-block text-danger" *ngIf="signUpForm.get('confirmPassword').errors['passwordSame']"> Password not same</span>
+          <span class="help-block text-danger" *ngIf="!signUpForm.get('confirmPassword').errors['required'] && !signUpForm.get('confirmPassword').errors['passwordSame']">Password should have atleast 8 characters</span>
+          </span>
+        </div>
+       </div>
+      </div>
+      <button type="submit" class="btnSubmit" [disabled]="!signUpForm.valid">
+          Sign up
+      </button>
+   </div>
+    </form>
+  </div>
+</div>

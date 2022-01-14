@@ -17,7 +17,7 @@
               />
               <input type="text" class="input" id="tweet" formControlName="tweet" placeholder="What's happening?" />
             </div>
-            <button class="tweetBox__tweetButton" type="submit">Tweet</button>
+            <button class="tweetBox__tweetButton" type="submit">tweet</button>
           </form>
         </div>
         <div *ngIf="!!!tweets || tweets.length === 0">
@@ -48,19 +48,19 @@
                 <div class="post__headerDescription">
                   <p>{{tweet.content}}</p>
                 </div>
-                <span>{{tweet.tweetDate}}</span>
+                <span class="data-style">{{tweet.tweetDate}}</span>
               </div>
               <hr>
-              <span>{{tweet.likes.length}} likes </span>
+              <span class="like-style">{{tweet.likes.length}} Likes </span>
               <hr>
               <div class="post__footer">
-                <em class="material-icons" (click)="reply(this)">chat_bubble_outline</em>
+                <em class="material-icons" (click)="toggleReply(tweet.id)">chat_bubble_outline</em>
                 <span class="material-icons"> repeat </span>
                 <em class="material-icons" (click)="like(tweet.id)"> favorite_border </em>
                 <span class="material-icons"> publish </span>
               </div>
             </div>
-            <ul>
+            <ul *ngIf="isShow && currentId === tweet.id">
               <li *ngFor="let reply of tweet.replies">
                 <div class="post__header">
                   <div class="post__headerText">
@@ -80,11 +80,20 @@
                 <span>likes</span>
                 <hr>
                 <div class="post__footer">
-                  <em class="material-icons" >chat_bubble_outline</em>
+                  <em class="material-icons" (click) = "toggleReply(reply.id)" >chat_bubble_outline</em>
                   <span class="material-icons"> repeat </span>
-                  <em class="material-icons" (click)="like(reply.id)"> favorite_border </em>
+                  <em class="material-icons" (click)="like(reply.id)" style="background-color: #122a4e;"> favorite_border </em>
                   <span class="material-icons"> publish </span>
                 </div>
+              </li>
+              <li>
+                <form [formGroup]="replyInput" (ngSubmit)="replyData(tweet.id)">
+                  <!-- <textarea type="text" class="input" placeholder="Reply here" id="reply" formControlName="reply"></textarea> -->
+                  <div class="tweetbox__input">
+                    <input type="text" class="input" placeholder="Reply here" id="reply" formControlName="reply" />
+                  </div>
+                  <button  type="submit" class="tweetBox__tweetButton">Reply</button>
+                </form>
               </li>
             </ul>
             <hr>
@@ -98,26 +107,3 @@
      </div>
     </div>
   </div>
-  <style>
-    .fa {
-      font-size: 50px;
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .fa:hover {
-      color: darkblue;
-    }
-    </style>
-
-
-    <p>Click on the icon to toggle between thumbs-up and thumbs-down (like/dislike):</p>
-
-    <i  class="fa fa-thumbs-up"></i>
-
-    <script>
-
-    </script>
-
-    <!-- widgets ends -->
-
