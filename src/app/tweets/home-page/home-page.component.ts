@@ -1,4 +1,4 @@
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from './../../authentication/authentication.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -6,6 +6,7 @@ import { TweetDataSerice } from '../tweet-data-service';
 import { Tweet } from '../tweet.model';
 import { User } from 'src/app/authentication/user.model';
 import { UserAccount } from 'src/app/authentication/user-account.model';
+import { image } from 'src/app/constants/constants';
 
 
 @Component({
@@ -31,10 +32,16 @@ export class HomePageComponent implements OnInit {
   ngOnInit(): void {
 
     this.replyInput = new FormGroup({
-      reply : new FormControl(null)
+      reply : new FormControl(null, [
+        Validators.required,
+        Validators.maxLength(144),
+      ])
     });
     this.tweetForm = new FormGroup({
-      tweet: new FormControl(null)
+      tweet: new FormControl(null, [
+        Validators.required,
+        Validators.maxLength(144),
+      ])
     });
 
     this.authenticationService.user$.subscribe(user=>{
@@ -74,7 +81,9 @@ export class HomePageComponent implements OnInit {
     this.isShow = !this.isShow;
     this.currentId = id;
   }
-
+getImage() : string{
+  return this.currentUser !== null ? this.currentUser.image : image
+}
   like(tweetId){
 
     if(!!this.currentUser){

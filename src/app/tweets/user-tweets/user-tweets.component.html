@@ -1,34 +1,35 @@
-<div *ngIf="!!!tweets || tweets.length === 0">
-  <h4>No tweets to show</h4>
-</div>
-     <!-- feed starts -->
+<!-- feed starts -->
      <div class="container" *ngIf="!!tweets">
-      <div class="row">
+      <div class="row user-tweets-style">
       <div class="feed col-md-12">
         <div class="feed__header">
-          <h2>Home</h2>
+          <h2>{{currentUser.name}}'s Tweets</h2>
+          <div *ngIf="!!!tweets || tweets.length === 0">
+            <h2 class="text-dark mt-5">No tweets to show</h2>
+          </div>
         </div>
         <!-- post starts -->
         <div *ngIf="!!tweets">
           <div class="post"  *ngFor="let tweet of tweets">
             <div class="post__avatar">
               <img
-                src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
+                src={{tweet.user.image}}
                 alt=""
               />
             </div>
-
             <div class="post__body">
               <div>
                 <div class="post__header">
                   <div class="post__headerText">
                     <h3>
                       {{tweet.user.name}}
-                      <span class="post__headerSpecial"
-                        ><span class="material-icons post__badge"> verified </span>@{{tweet.user.name}}</span
-                      >
+                      <span class="post__headerSpecial"><span class="material-icons post__badge"> verified </span>@{{tweet.user.name}}</span>
+                      <span class="ml-2">
+                        <span class="material-icons ml-5" (click)="deleteModal(tweet.id)">
+                          delete
+                          </span>
+                      </span>
                     </h3>
-                    <button (click)="deleteModal(tweet.id)">Delete</button>
                     <app-modal-popup [modalMessage]="modalMessage" (isProceed)="proceed(true,tweet.id)"></app-modal-popup>
                   </div>
                   <div class="post__headerDescription">
@@ -40,9 +41,8 @@
                 <hr>
                 <div class="post__footer">
                   <em class="material-icons" (click)="toggleReply(tweet.id)">chat_bubble_outline</em>
-                  <span class="material-icons"> repeat </span>
-                  <span class="material-icons"> repeat </span>
-                  <div [ngClass]="{'liked-color':false}">
+                  <span class="material-icons "> repeat </span>
+                  <div [ngClass]="{'liked-color': isUserLiked(tweet.likes)}">
                     <em class="material-icons" (click)="like(tweet.id)" > favorite_border </em>
                   </div>
                   <span class="material-icons"> publish </span>
@@ -50,7 +50,7 @@
               </div>
               <ul *ngIf="isShow && currentId === tweet.id">
                 <li *ngFor="let reply of tweet.replies">
-                  <div class="post__header">
+                  <div class="post__header mt-3">
                     <div class="post__headerText">
                       <h3>
                         {{reply.user.name}}
@@ -62,7 +62,6 @@
                     <div class="post__headerDescription">
                       <p>{{reply.content}}</p>
                     </div>
-                    <span>{{reply.tweetDate}}</span>
                   </div>
                   <hr>
                   <span class="like-style">{{reply.likes.length}} Likes </span> <span class="ml-5 data-style">{{reply.tweetDate}}</span>
@@ -70,17 +69,15 @@
                   <div class="post__footer">
                     <em class="material-icons" (click)="toggleReply(reply.id)">chat_bubble_outline</em>
                     <span class="material-icons"> repeat </span>
-                    <em class="material-icons" (click)="like(reply.id)"> favorite_border </em>
                     <span class="material-icons"> publish </span>
                   </div>
                 </li>
                 <li>
                   <form [formGroup]="replyInput" (ngSubmit)="replyData(tweet.id)">
-                    <!-- <textarea type="text" class="input" placeholder="Reply here" id="reply" formControlName="reply"></textarea> -->
-                    <div class="tweetbox__input">
+                    <div class="replybox__input">
                       <input type="text" class="input" placeholder="Reply here" id="reply" formControlName="reply" />
                     </div>
-                    <button  type="submit" class="tweetBox__tweetButton">Reply</button>
+                    <button  type="submit" class="replyBox__replyButton">Reply</button>
                   </form>
                 </li>
               </ul>

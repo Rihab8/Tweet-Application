@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, MinLengthValidator, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { User } from '../user.model';
 import { Router } from '@angular/router';
+import { image } from 'src/app/constants/constants';
 
 @Component({
   selector: 'app-signup',
@@ -52,21 +53,23 @@ selectFile(event: any) {
 }
   onSubmit() {
     const value = this.signUpForm.value;
-
-    const newUser= new User("",value.image, value.firstName,value.lastName,
+    const imageUrl = value.image === null ? image : value.image
+    const newUser= new User("",imageUrl, value.firstName,value.lastName,
     value.password,value.confirmPassword,value.contactNumber,value.email);
-    // this.authenticationService.signUp(newUser).subscribe(
-    //   (data) => {
-    //     this.router.navigate(['/Auth/login']);
-    //   },
-    //   (error) => {
-    //     this.signUpForm.reset();
-    //     this.error = error;
-    //   }
-    // );
+    this.authenticationService.signUp(newUser).subscribe(
+      (data) => {
+        this.router.navigate(['/Auth/login']);
+      },
+      (error) => {
+        this.signUpForm.reset();
+        this.error = error;
+      }
+    );
 
   }
 }
+
+//password validation
 export const passwordMatchingValidatior: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const password = control.get('password');
   const confirmPassword = control.get('confirmPassword');

@@ -1,19 +1,25 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+// * {
+//   margin: 0;
+//   padding: 0;
+//   box-sizing: border-box;
+// }
 
 body {
   --twitter-color: #122a4e;
   --twitter-background: #e6ecf0;
 }
-
+hr {
+  margin: 5px;
+  border: 0;
+  border-top: 1px solid rgb(18,42,78,0.3);
+}
 .fa-twitter {
   color: #122a4e;
   font-size: 30px;
 }
-
+ .home-style{
+  margin-left: 200px;
+}
 /* feed */
 .feed {
   flex: 0.5;
@@ -33,7 +39,8 @@ body {
 
 .feed__header h2 {
   font-size: 20px;
-  font-weight: 800;
+  font-family: cursive;
+  color: #1a5ca3;
 }
 
 .feed::-webkit-scrollbar {
@@ -48,7 +55,8 @@ body {
 /* tweet box */
 .tweetbox__input img {
   border-radius: 50%;
-  height: 40px;
+  height: 55px;
+  width: 55px;
 }
 
 .tweetBox {
@@ -74,15 +82,39 @@ body {
   border: none;
   outline: none;
 }
+.replybox__input {
+  display: flex;
+  padding: 10px;
+}
 
+.replybox__input input {
+  flex: 1;
+  border: none;
+  outline: none;
+}
+.replyBox__replyButton {
+  background-color: #122a4e;
+  border: none;
+  color: white;
+  font-family: cursive;
+  border-radius: 10px;
+  width: 67px;
+  height: 29px;
+  margin-top: 20px;
+  margin-left: 224px;
+
+  &:hover{
+    background-color:#1a5ca3;
+  }
+}
 .tweetBox__tweetButton {
   background-color: #122a4e;
   border: none;
   color: white;
   font-family: cursive;
-  border-radius: 30px;
-  width: 80px;
-  height: 40px;
+  border-radius: 15px;
+  width: 74px;
+  height: 37px;
   margin-top: 20px;
   margin-left: auto;
 
@@ -148,7 +180,9 @@ body {
 .post__avatar {
   padding: 20px;
 }
-
+ul {
+  list-style-type: none;
+}
 
 .material-icons{
   color:  #1a5ca3;

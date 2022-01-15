@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../authentication.service';
 
@@ -26,9 +26,8 @@ export class ChangePasswordComponent implements OnInit {
       ]),
       confirmPassword: new FormControl(null, [
         Validators.required,
-        Validators.minLength(8),
       ]),
-    });
+    },{ validators:[ passwordMatchingValidatior.bind(this)] });
   }
 
   onSubmit() {
@@ -45,3 +44,9 @@ export class ChangePasswordComponent implements OnInit {
   }
 
 }
+
+export const passwordMatchingValidatior: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  const newPassword = control.get('newPassword');
+  const confirmPassword = control.get('confirmPassword');
+  return newPassword?.value === confirmPassword?.value ? null : { notmatched: true };
+};

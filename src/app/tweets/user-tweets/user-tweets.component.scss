@@ -8,7 +8,11 @@ body {
   --twitter-color: #122a4e;
   --twitter-background: #e6ecf0;
 }
-
+hr {
+  margin: 5px;
+  border: 0;
+  border-top: 1px solid rgb(18,42,78,0.3);
+}
 .fa-twitter {
   color: #122a4e;
   font-size: 30px;
@@ -33,7 +37,8 @@ body {
 
 .feed__header h2 {
   font-size: 20px;
-  font-weight: 800;
+  font-family: cursive;
+  color: #1a5ca3;
 }
 
 .feed::-webkit-scrollbar {
@@ -70,30 +75,25 @@ body {
   flex-direction: column;
 }
 
-.tweetbox__input {
-  display: flex;
-  padding: 20px;
-}
-
-.tweetbox__input input {
+.replybox__input input {
   flex: 1;
-  margin-left: 20px;
-  font-size: 20px;
   border: none;
   outline: none;
 }
-
-.tweetBox__tweetButton {
+.replyBox__replyButton {
   background-color: #122a4e;
   border: none;
   color: white;
-  font-weight: 900;
-
-  border-radius: 30px;
-  width: 80px;
-  height: 40px;
+  font-family: cursive;
+  border-radius: 10px;
+  width: 67px;
+  height: 29px;
   margin-top: 20px;
-  margin-left: auto;
+  margin-left: 224px;
+
+  &:hover{
+    background-color:#1a5ca3;
+  }
 }
 
 /* post */
@@ -154,7 +154,9 @@ body {
 ul {
   list-style-type: none;
 }
-
+.user-tweets-style{
+  margin-left: 300px;
+}
 .data-style{
   font-size: 14px;
   font-family: sans-serif;
