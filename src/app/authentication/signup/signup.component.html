@@ -132,6 +132,14 @@
           <span class="help-block text-danger" *ngIf="signUpForm.errors?.notmatched && (signUpForm.get('confirmPassword').touched || signUpForm.get('confirmPassword').dirty)"> Password not same</span>
         </div>
        </div>
+       <div class="col-md-12">
+        <div style="text-align:center">
+          <div><span *ngIf="url" >{{url}}</span></div>
+          <p>
+            <input type="file" (change)="selectFile($event)"  id="image" formControlName="image">
+          </p>
+        </div>
+       </div>
       </div>
       <button type="submit" class="btnSubmit" [disabled]="!signUpForm.valid">
           Sign up
