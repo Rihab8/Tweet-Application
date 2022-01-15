@@ -1,6 +1,6 @@
 import { AuthenticationService } from './../authentication.service';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, MinLengthValidator, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, MinLengthValidator, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { User } from '../user.model';
 import { Router } from '@angular/router';
 
@@ -22,7 +22,7 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {
     this.signUpForm = new FormGroup({
       firstName: new FormControl(null, [Validators.required,Validators.minLength(3)]),
-      lastName: new FormControl(null, [Validators.required,Validators.minLength(3)]),
+      lastName: new FormControl(null, [Validators.required]),
       email: new FormControl(null, [
         Validators.required,
         Validators.email
@@ -34,27 +34,11 @@ export class SignupComponent implements OnInit {
       ]),
       confirmPassword: new FormControl(null, [
         Validators.required,
-        Validators.minLength(8),
       ]),
       image: new FormControl(null)
-    },{
-      validators: this.validateConfirmPassword.bind(this)
-   });
+   },{ validators:[ passwordMatchingValidatior.bind(this)] });
   }
 
-  //confirm password validation
-  validateConfirmPassword(
-    control: AbstractControl
- ): ValidationErrors | null {
-    if (control && control.get("password") && control.get("newPassword")) {
-       const password = control.get("password").value;
-       const newPassword = control.get("newPassword").value;
-       return (password === newPassword) ? {
-          passwordSame: true
-       } : null
-    }
-    return null;
- }
 
 
 selectFile(event: any) {
@@ -71,16 +55,20 @@ selectFile(event: any) {
 
     const newUser= new User("",value.image, value.firstName,value.lastName,
     value.password,value.confirmPassword,value.contactNumber,value.email);
-    this.authenticationService.signUp(newUser).subscribe(
-      (data) => {
-        this.router.navigate(['/Auth/login']);
-      },
-      (error) => {
-        this.signUpForm.reset();
-        this.error = error;
-      }
-    );
+    // this.authenticationService.signUp(newUser).subscribe(
+    //   (data) => {
+    //     this.router.navigate(['/Auth/login']);
+    //   },
+    //   (error) => {
+    //     this.signUpForm.reset();
+    //     this.error = error;
+    //   }
+    // );
 
   }
-
 }
+export const passwordMatchingValidatior: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  const password = control.get('password');
+  const confirmPassword = control.get('confirmPassword');
+  return password?.value === confirmPassword?.value ? null : { notmatched: true };
+};

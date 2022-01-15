@@ -115,8 +115,10 @@ export class HomePageComponent implements OnInit {
   }
 
   isUserLiked(likes: string[]){
-
-    return likes.includes(this.currentId);
+    if(!!this.currentUser){
+      return likes.includes(this.currentUser.id);
+    }
+    return false;
   }  
   randHex = function(len) {
     var maxlen = 8,

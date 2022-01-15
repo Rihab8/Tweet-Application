@@ -168,3 +168,12 @@ body {
   font-weight: bold;
   color: #122a4e;
 }
+.liked-color{
+  .material-icons{
+    color:  red !important;
+    &:hover{
+      color:  #122a4e;
+      cursor: pointer;
+    }
+  }
+}

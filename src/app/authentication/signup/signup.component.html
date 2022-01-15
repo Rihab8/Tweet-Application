@@ -129,10 +129,7 @@
        <div class="col-md-6">
         <div class="form-group">
           <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password *" formControlName="confirmPassword">
-          <span class="help-block text-danger" *ngIf="!signUpForm.get('confirmPassword').valid && signUpForm.get('confirmPassword').touched">
-          <span class="help-block text-danger" *ngIf="signUpForm.get('confirmPassword').errors['passwordSame']"> Password not same</span>
-          <span class="help-block text-danger" *ngIf="!signUpForm.get('confirmPassword').errors['required'] && !signUpForm.get('confirmPassword').errors['passwordSame']">Password should have atleast 8 characters</span>
-          </span>
+          <span class="help-block text-danger" *ngIf="signUpForm.errors?.notmatched && (signUpForm.get('confirmPassword').touched || signUpForm.get('confirmPassword').dirty)"> Password not same</span>
         </div>
        </div>
       </div>
