@@ -4,6 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
+import { TweetDataService } from '../tweets/tweet-data.service';
 import { AuthenticationService } from './authentication.service';
 import { UserAccount } from './user-account.model';
 
@@ -29,6 +30,7 @@ describe('AuthenticationService', () => {
     let service: AuthenticationService;
     let httpService: HttpTestingController;
     let router: Router;
+    let localStore;
     beforeEach(() =>
     { TestBed.configureTestingModule({
         imports: [HttpClientTestingModule,RouterTestingModule],
@@ -36,17 +38,40 @@ describe('AuthenticationService', () => {
             HttpClient,{ provide: Router, useValue: mockRouter },
         ]
     });
+    localStore = {};
+
+    spyOn(window.localStorage, 'getItem').and.callFake((key) =>
+      key in localStore ? localStore[key] : null
+    );
+    spyOn(window.localStorage, 'setItem').and.callFake(
+      (key, value) => (localStore[key] = value + '')
+    );
+    spyOn(window.localStorage, 'clear').and.callFake(() => (localStore = {}));
     httpService = TestBed.inject(HttpTestingController);  
+    service = TestBed.inject(AuthenticationService);
     });
 
-  xit('should logout when logout() method is called', () => {
+  it('should user$ emit null when logout() method is called', () => {
    // let spy = spyOn(service, 'logout').and.callThrough();
     service.logout(); 
-    expect(service.user$).toBeNull();
+    service['user'].subscribe(value=>{
+      expect(value).toBeNull();
+    })
   }); 
-
-    xit('test handleAuthentication',()=>{
-        service['handleAuthentication'](mockUsersData.id,mockUsersData.name,mockUsersData.email,mockUsersData.image,mockUsersData.token);
-        
+  it('getUserByEmail',()=>{
+    service.getUserByEmail('test@gmail.com').subscribe(data=>{
+      expect(data).toBeDefined();
+    });
+  })
+  it('test handleAuthentication method',()=>{
+      service['handleAuthentication'](mockUsersData.id,mockUsersData.name,mockUsersData.email,mockUsersData.image,mockUsersData.token);
+      service['user'].subscribe(value=>{
+        expect(value).toBeDefined();
+      })
+    });
+    it('should run autoLogin() method succesfully',()=>{
+      window.localStorage.setItem('userData',JSON.stringify(mockUsersData));
+      service.autoLogin();
+     expect(JSON.parse(window.localStorage.getItem('userData'))).toBeDefined();
     });
 });
