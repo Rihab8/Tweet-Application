@@ -2,7 +2,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { AuthenticationService } from './../../authentication/authentication.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { TweetDataSerice } from '../tweet-data-service';
+import { TweetDataService } from '../tweet-data.service';
 import { Tweet } from '../tweet.model';
 import { UserAccount } from 'src/app/authentication/user-account.model';
 import { Modal } from "bootstrap";
@@ -23,7 +23,7 @@ export class UserTweetsComponent implements OnInit {
   modalMessage: string = "";
   testModal: Modal | undefined;
   characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  constructor(private tweetDataService: TweetDataSerice,private authenticationService:AuthenticationService, private router: Router) {
+  constructor(private tweetDataService: TweetDataService,private authenticationService:AuthenticationService, private router: Router) {
     this.currentUser = JSON.parse((localStorage.getItem('userData')));
   }
 

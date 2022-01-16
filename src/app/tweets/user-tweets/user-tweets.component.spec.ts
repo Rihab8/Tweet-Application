@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
 import { UserAccount } from 'src/app/authentication/user-account.model';
-import { TweetDataSerice } from '../tweet-data-service';
+import { TweetDataService } from '../tweet-data.service';
 
 import { UserTweetsComponent } from './user-tweets.component';
 
@@ -62,7 +62,7 @@ const mockUsersData: UserAccount =
 describe('UserTweetsComponent', () => {
   let component: UserTweetsComponent;
   let fixture: ComponentFixture<UserTweetsComponent>;
-  let tweetDataService: TweetDataSerice;
+  let tweetDataService: TweetDataService;
   let authenticationService:AuthenticationService
   
   beforeEach(async () => {
@@ -70,7 +70,7 @@ describe('UserTweetsComponent', () => {
       declarations: [ UserTweetsComponent ],
       imports: [HttpClientTestingModule,RouterTestingModule],
       providers: [
-        HttpClient,{ provide: AuthenticationService },{ provide: TweetDataSerice }]
+        HttpClient,{ provide: AuthenticationService },{ provide: TweetDataService }]
       })   
     .compileComponents();
   });
@@ -79,7 +79,7 @@ describe('UserTweetsComponent', () => {
     fixture = TestBed.createComponent(UserTweetsComponent);
     component = fixture.componentInstance;
     authenticationService = TestBed.inject(AuthenticationService);
-    tweetDataService = TestBed.inject(TweetDataSerice);
+    tweetDataService = TestBed.inject(TweetDataService);
     fixture.detectChanges();
   });
 

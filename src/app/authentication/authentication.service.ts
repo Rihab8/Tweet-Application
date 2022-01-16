@@ -85,7 +85,6 @@ export class AuthenticationService{
     }
   }
   autoLogout(expirationDuration: number) {
-    console.log(expirationDuration);
     this.tokenExpirationTimer = setTimeout(() => {
       this.logout();
     }, expirationDuration);
@@ -105,9 +104,7 @@ export class AuthenticationService{
     user._token = token;
     user.email = email;
     user._tokenExpirationDate = expirationDate;
-    // console.log(user.token);
     this.user.next(user);
-   // this.autoLogout(3600 * 1000);
     localStorage.setItem('userData', JSON.stringify(user));
   }
   private handleError(errorRes: HttpErrorResponse) {

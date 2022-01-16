@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
 import { UserAccount } from 'src/app/authentication/user-account.model';
-import { TweetDataSerice } from '../tweet-data-service';
+import { TweetDataService } from '../tweet-data.service';
 
 import { HomePageComponent } from './home-page.component';
 
@@ -63,7 +63,7 @@ const mockUsersData: UserAccount =
 describe('HomePageComponent', () => {
   let component: HomePageComponent;
   let fixture: ComponentFixture<HomePageComponent>;
-  let tweetDataService: TweetDataSerice;
+  let tweetDataService: TweetDataService;
   let authenticationService:AuthenticationService
   
   beforeEach(async () => {
@@ -71,7 +71,7 @@ describe('HomePageComponent', () => {
       declarations: [ HomePageComponent ],
       imports: [HttpClientTestingModule,RouterTestingModule,ReactiveFormsModule],
       providers: [
-        HttpClient,{ provide: AuthenticationService },{ provide: TweetDataSerice }]
+        HttpClient,{ provide: AuthenticationService },{ provide: TweetDataService }]
       })   
     .compileComponents();
   });
@@ -80,7 +80,7 @@ describe('HomePageComponent', () => {
     fixture = TestBed.createComponent(HomePageComponent);
     component = fixture.componentInstance;
     authenticationService = TestBed.inject(AuthenticationService);
-    tweetDataService = TestBed.inject(TweetDataSerice);
+    tweetDataService = TestBed.inject(TweetDataService);
     fixture.detectChanges();
   });
 
