@@ -76,7 +76,7 @@ export class TweetDataSerice{
       }
     })
   }
-  deletTweet(id: string){
+  deleteTweet(id: string){
     const url=`${microserviceUrls.tweetMiscroserviceUrl}/${id}`;
     this.httpService.delete(url,{responseType:'text'}).subscribe(data=>{
       this.getTweetsByUserId(this.currentUser.id);

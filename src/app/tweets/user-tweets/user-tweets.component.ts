@@ -68,7 +68,7 @@ export class UserTweetsComponent implements OnInit {
     reply.likes = [];
     this.tweetDataService.addReplyTweet(id,reply,true);
 
-    //this.replyInput.reset();
+    this.replyInput.reset();
   }
   toggleReply(id) {
     this.isShow = !this.isShow;
@@ -94,7 +94,7 @@ export class UserTweetsComponent implements OnInit {
     this.deleteTweet(id);
   }
   deleteTweet(id){
-    this.tweetDataService.deletTweet(id);
+    this.tweetDataService.deleteTweet(id);
   }
 
   isUserLiked(likes: string[]){
