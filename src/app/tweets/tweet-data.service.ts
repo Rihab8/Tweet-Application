@@ -1,13 +1,13 @@
-import { AuthenticationService } from './../authentication/authentication.service';
+import { AuthenticationService } from '../authentication/authentication.service';
 import { UserAccount } from 'src/app/authentication/user-account.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Directive, Injectable } from "@angular/core";
 import { Tweet } from "./tweet.model";
 import  {microserviceUrls }  from "../constants/constants";
 
 @Injectable({providedIn:'root'})
-export class TweetDataSerice{
+export class TweetDataService{
 
     private allTweets = new BehaviorSubject<Tweet[]>(null);
     public allTweets$:Observable<Tweet[]>

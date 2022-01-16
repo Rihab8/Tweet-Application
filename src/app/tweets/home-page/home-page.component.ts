@@ -2,7 +2,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from './../../authentication/authentication.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { TweetDataSerice } from '../tweet-data-service';
+import { TweetDataService } from '../tweet-data.service';
 import { Tweet } from '../tweet.model';
 import { User } from 'src/app/authentication/user.model';
 import { UserAccount } from 'src/app/authentication/user-account.model';
@@ -25,7 +25,7 @@ export class HomePageComponent implements OnInit {
   message: string = "";
   modalMessage: string = "";
 
-  constructor(private tweetDataService: TweetDataSerice,private authenticationService:AuthenticationService, private router: Router) {
+  constructor(private tweetDataService: TweetDataService,private authenticationService:AuthenticationService, private router: Router) {
     this.currentUser = JSON.parse((localStorage.getItem('userData')));
   }
 
