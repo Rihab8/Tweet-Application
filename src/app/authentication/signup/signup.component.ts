@@ -53,7 +53,7 @@ selectFile(event: any) {
 }
   onSubmit() {
     const value = this.signUpForm.value;
-    const imageUrl = value.image === null ? image : value.image
+    const imageUrl = this.url === null ? image : this.url;
     const newUser= new User("",imageUrl, value.firstName,value.lastName,
     value.password,value.confirmPassword,value.contactNumber,value.email);
     this.authenticationService.signUp(newUser).subscribe(
@@ -65,7 +65,7 @@ selectFile(event: any) {
         this.error = error;
       }
     );
-
+    this.router.navigate(['/Auth/login']);  
   }
 }
 
