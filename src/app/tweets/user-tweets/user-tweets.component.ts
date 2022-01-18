@@ -18,6 +18,7 @@ export class UserTweetsComponent implements OnInit {
   replyInput:FormGroup;
   currentUser: UserAccount;
   currentId: string = '';
+  deleteId: string='';
   isShow = false;
   message: string = "";
   modalMessage: string = "";
@@ -79,6 +80,7 @@ export class UserTweetsComponent implements OnInit {
   }
   deleteModal(id: string) {
     this.modalMessage = "Are you sure you want to delete?"
+    this.deleteId = id;
     this.open();
 
   }
@@ -94,7 +96,7 @@ export class UserTweetsComponent implements OnInit {
     this.deleteTweet(id);
   }
   deleteTweet(id){
-    this.tweetDataService.deleteTweet(id);
+    this.tweetDataService.deleteTweet(this.deleteId);
   }
 
   isUserLiked(likes: string[]){

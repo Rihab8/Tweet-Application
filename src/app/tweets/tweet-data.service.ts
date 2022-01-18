@@ -24,7 +24,7 @@ export class TweetDataService{
       })
     }
     getTweetsByUserId(id: string){
-      const url=`${microserviceUrls.tweetMiscroserviceUrl}/user?id=${id}`;
+      const url=`${microserviceUrls.tweetMiscroserviceUrl}/user?userId=${id}`;
        this.httpService.get<Tweet[]>(url).subscribe(data=>{
         this.userTweets.next(data);
       });
